@@ -1,11 +1,11 @@
-const express = require("express");
-const db = require("./db");
+import express from "express";
+import { createTask, deleteTask, readTask, readTasks, updateTask } from "./db";
 
 const app = express();
 app.use(express.json());
 
 app.post("/", (req, res) => {
-  const newTask = db.createTask(req.body);
+  const newTask = createTask(req.body);
   if (!newTask) {
     res.status(400);
   } else {
@@ -14,21 +14,21 @@ app.post("/", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).send(db.readTasks());
+  res.status(200).send(readTasks());
 });
 
 app.delete("/:id", (req, res) => {
-  db.deleteTask(req.params.id);
+  deleteTask(+req.params.id);
   res.sendStatus(205);
 });
 
 app.get("/:id", (req, res) => {
-  const task = db.readTask(req.params.id);
+  const task = readTask(+req.params.id);
   res.status(200).send(task);
 });
 
 app.put("/:id", (req, res) => {
-  const updTask = db.updateTask(req.params.id, req.body);
+  const updTask = updateTask(+req.params.id, req.body);
   res.status(200).send(updTask);
 });
 

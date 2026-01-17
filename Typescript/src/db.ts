@@ -1,6 +1,8 @@
+import { ICreateTask, ITask, IUpdateTask } from "./types";
+
 let idCounter = 1;
 
-const tasks = [
+const tasks: ITask[] = [
   {
     id: 0,
     text: "HELLO LOX",
@@ -8,7 +10,7 @@ const tasks = [
   },
 ];
 
-exports.createTask = (body) => {
+export const createTask = (body: ICreateTask): ITask | null => {
   if (!body.text) return null;
   const task = {
     id: idCounter,
@@ -20,13 +22,13 @@ exports.createTask = (body) => {
   return task;
 };
 
-exports.readTasks = () => {
+export const readTasks = () => {
   return tasks;
 };
-exports.readTask = (id) => {
+export const readTask = (id: number) => {
   return tasks.find((task) => +task.id === +id);
 };
-exports.updateTask = (id, body) => {
+export const updateTask = (id: number, body: IUpdateTask) => {
   const task = tasks.find((task) => +task.id === +id);
   console.log(task);
   if (task) {
@@ -37,10 +39,9 @@ exports.updateTask = (id, body) => {
     return null;
   }
 };
-exports.deleteTask = (id) => {
+export const deleteTask = (id: number): void => {
   const index = tasks.findIndex((task) => +task.id === +id);
   if (index >= 0) {
     tasks.splice(index, 1);
   }
-  return null;
 };
